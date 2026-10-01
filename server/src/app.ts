@@ -38,9 +38,18 @@ app.get('/', (req, res) => {
   });
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Health check with DB connection diagnostic
+app.get('/api/health', async (req, res) => {
+  try {
+    const dbUrlConfigured = Boolean(process.env.DATABASE_URL);
+    res.json({
+      status: 'ok',
+      dbUrlConfigured,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (err: any) {
+    res.status(500).json({ status: 'error', error: err.message });
+  }
 });
 
 // Global 404 handler
@@ -51,7 +60,12 @@ app.use((req, res) => {
 // Global error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled server error:', err);
-  res.status(500).json({ error: err.message || 'Internal server error' });
+  const isDbError = err?.message?.includes('Prisma') || err?.message?.includes('database') || err?.code?.startsWith('P');
+  const userMessage = isDbError
+    ? `Database connection failed. Please ensure DATABASE_URL environment variable is configured in Vercel settings. (${err.message})`
+    : err.message || 'Internal server error';
+
+  res.status(500).json({ error: userMessage });
 });
 
 export default app;
