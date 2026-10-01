@@ -1,6 +1,6 @@
 import { DocumentItem, User, DocumentShare } from '../types';
 
-const API_BASE = '/api';
+const API_BASE = (import.meta as any).env?.VITE_API_BASE || '/api';
 
 function getHeaders(userId: string, isJson = true): HeadersInit {
   const headers: Record<string, string> = {
