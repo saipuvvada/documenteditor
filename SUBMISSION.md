@@ -4,7 +4,7 @@
 
 - **Project Name**: DocuCraft — Collaborative Document Editor
 - **Live URL**: [placeholder]
-- **Repository / Source**: [placeholder]
+- **Repository / Source**: https://github.com/saipuvvada/documenteditor.git
 - **Video Demonstration URL**: [placeholder]
 
 ---
