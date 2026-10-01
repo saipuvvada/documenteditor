@@ -9,6 +9,8 @@ build/
 *.db
 *.db-journal
 .env
+.env.local
+.env.*.local
 
 # Logs & OS artifacts
 *.log

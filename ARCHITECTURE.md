@@ -22,7 +22,7 @@ The Collaborative Document Editor follows a decoupled Client-Server architecture
                                | Prisma Client (ORM)
                                v
 +-------------------------------------------------------------+
-|                      SQLite Database                        |
+|                     Supabase PostgreSQL                     |
 |  - User Entity (`id`, `name`, `email`)                       |
 |  - Document Entity (`id`, `title`, `content`, `ownerId`)     |
 |  - DocumentShare Entity (`id`, `documentId`, `userId`)       |
@@ -71,7 +71,7 @@ When a user uploads a document (.txt, .md, .docx):
 
 ## 4. Persistence & Autosave Strategy
 
-- **HTML Consistency**: TipTap content is stored as sanitized HTML strings in SQLite. This ensures formatting (bold, italic, underline, lists, headings) is preserved across page refreshes and different browsers.
+- **HTML Consistency**: TipTap content is stored as sanitized HTML strings in PostgreSQL. This ensures formatting (bold, italic, underline, lists, headings) is preserved across page refreshes and different browsers.
 - **Debounced Autosave**: Client listens to TipTap `onUpdate` events and title input changes. Fires an HTTP `PUT` request 1000ms after typing stops.
 - **Save State Machine**: State transitions between `unsaved` -> `saving` -> `saved` (or `failed` if network/authorization error occurs).
 

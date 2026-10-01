@@ -27,7 +27,7 @@ A lightweight, high-performance collaborative document editor inspired by Google
 ### Backend
 - **Runtime & Framework**: Node.js + Express + TypeScript
 - **Documentation**: Swagger UI (`swagger-ui-express` + OpenAPI 3.0) at `/docs`
-- **ORM & Database**: Prisma ORM + SQLite (`file:./dev.db`)
+- **ORM & Database**: Prisma ORM + Supabase PostgreSQL (`DATABASE_URL`)
 - **File Processing**: Multer (Upload handling), Mammoth (DOCX to HTML parsing)
 - **Testing**: Vitest + Supertest
 
