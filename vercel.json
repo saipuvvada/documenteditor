@@ -1,36 +1,33 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server/api/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["server/prisma/schema.prisma"]
-      }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "client": {
+      "root": "client",
+      "framework": "vite"
     },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+    "server": {
+      "root": "server",
+      "framework": "express"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/api/index.ts"
+      "source": "/api/(.*)",
+      "destination": {
+        "service": "server"
+      }
     },
     {
-      "src": "/docs(.*)",
-      "dest": "server/api/index.ts"
+      "source": "/docs(.*)",
+      "destination": {
+        "service": "server"
+      }
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "client/$1"
+      "source": "/(.*)",
+      "destination": {
+        "service": "client"
+      }
     }
   ]
 }
