@@ -2,6 +2,7 @@
   "name": "document-editor-server",
   "version": "1.0.0",
   "description": "Backend server for Collaborative Document Editor Assessment",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
