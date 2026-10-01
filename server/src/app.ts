@@ -16,30 +16,8 @@ app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Routes
-app.use('/api/users', usersRouter);
-app.use('/api/documents', documentsRouter);
-app.use('/api/upload', uploadRouter);
-
-// Root info endpoint
-app.get('/', (req, res) => {
-  res.json({
-    name: 'DocuCraft API Server',
-    status: 'running',
-    swaggerDocs: 'http://localhost:5001/docs',
-    frontendUrl: 'http://localhost:3000',
-    endpoints: {
-      health: 'GET /api/health',
-      swagger: 'GET /docs',
-      users: 'GET /api/users',
-      documents: 'GET /api/documents',
-      upload: 'POST /api/upload',
-    },
-  });
-});
-
-// Health check with DB connection diagnostic
-app.get('/api/health', async (req, res) => {
+// Health check handler
+const healthHandler = async (req: express.Request, res: express.Response) => {
   try {
     const dbUrlConfigured = Boolean(process.env.DATABASE_URL);
     res.json({
@@ -50,7 +28,20 @@ app.get('/api/health', async (req, res) => {
   } catch (err: any) {
     res.status(500).json({ status: 'error', error: err.message });
   }
-});
+};
+
+// Routes (Support both /api/path and /path prefixes)
+app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
+
+app.use('/api/documents', documentsRouter);
+app.use('/documents', documentsRouter);
+
+app.use('/api/upload', uploadRouter);
+app.use('/upload', uploadRouter);
+
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
 // Global 404 handler
 app.use((req, res) => {
