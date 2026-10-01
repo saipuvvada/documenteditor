@@ -37,8 +37,8 @@ export async function authMiddleware(
     req.userId = user.id;
     req.user = user;
     next();
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auth middleware error:', error);
-    return res.status(500).json({ error: 'Internal server error during authentication check' });
+    return res.status(500).json({ error: `Internal server error during authentication check: ${error?.message || String(error)}` });
   }
 }

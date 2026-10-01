@@ -82,9 +82,9 @@ router.get('/', async (req: AuthenticatedRequest, res: Response) => {
       owned: ownedDocuments,
       shared: sharedDocuments,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching documents:', error);
-    return res.status(500).json({ error: 'Failed to retrieve documents' });
+    return res.status(500).json({ error: `Failed to retrieve documents: ${error?.message || String(error)}` });
   }
 });
 
